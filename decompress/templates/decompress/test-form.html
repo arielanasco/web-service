@@ -1,8 +1,8 @@
 <html>
     <body>
-        <form action="http://127.0.0.1:8000/gzip/unzip/" method="POST" enctype="multipart/form-data">
+        <form action="/gzip/unzip/" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            <input type="text" name="url" value="http://127.0.0.1:8000/media/test_file/logcat-20180908_batterySafe-Off.log.gz"/>
+            <input type="text" name="url" value="http://18.183.17.47/media/test_file/logcat-20180908_batterySafe-Off.log.gz"/>
             <input type="text" name="client-key" value="XR7749ZNPNIZU50A2H5U180SU0INRF5Z9VS8CMUGYJZSJMVVIXKQZUYQUOSRBLAR"/>
             <input type="submit" value="Submit" />
         </form>
