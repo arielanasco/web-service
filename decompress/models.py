@@ -5,4 +5,4 @@ class TestFile(models.Model):
 	file_name = models.FileField(upload_to='test_file')
 
 	def __str__(self):
-		return self.file_name
+		return "Test File"
