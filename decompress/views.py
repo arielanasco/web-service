@@ -30,18 +30,18 @@ def index(request):
             if data.status_code != 200:
                 raise Exception("File not found on the server") 
 
-            data_headers = data.headers.get('content-disposition').decode('UTF-8')
-            print(data_headers)
-            filename = re.findall('filename=(.+)', data_headers)[0]
-            is_valid_file = filename.endswith('gz',-3,-1)
+            # data_headers = data.headers.get('content-disposition').decode('UTF-8')
+            # print(data_headers)
+            # filename = re.findall('filename=(.+)', data_headers)[0]
+            # is_valid_file = filename.endswith('gz',-3,-1)
 
             with gzip.open("temp.log.gz", "wb") as file:
                 for chunk in data.iter_content(chunk_size=16*1024):
                     file.write(data.content) 
 
-        if not is_valid_file:
-            os.remove("temp.log.gz")
-            raise Exception("File should be gzip only")
+        # if not is_valid_file:
+            # os.remove("temp.log.gz")
+            # raise Exception("File should be gzip only")
 
         with gzip.open("temp.log.gz", 'rb') as ip:
                 with io.TextIOWrapper(ip, encoding='utf-8') as decoder:
