@@ -4,5 +4,5 @@ from django.db import models
 class TestFile(models.Model):
 	file_name = models.FileField(upload_to='test_file')
 
-	def __str__():
-		return file_name
+	def __str__(self):
+		return self.file_name
