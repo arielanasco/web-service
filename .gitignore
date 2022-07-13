@@ -4,3 +4,5 @@ db.sqlite3
 web_service/__pycache__
 decompress/__pycache__
 decompress/migrations
+access.log
+error.log
