@@ -30,7 +30,8 @@ def index(request):
             if data.status_code != 200:
                 raise Exception("File not found on the server") 
 
-            data_headers = data.headers.get('content-disposition')
+            data_headers = data.headers.get('content-disposition').decode('UTF-8')
+            print(data_headers)
             filename = re.findall('filename=(.+)', data_headers)[0]
             is_valid_file = filename.endswith('gz',-3,-1)
 
