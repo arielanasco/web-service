@@ -19,6 +19,8 @@ headers = {
 def index(request):
     url = request.POST.get('url', None)
     client_key = request.POST.get('client-key', None)
+    print(url)
+    print(client_key)
 
     if client_key in settings.CLIENT_KEY:
         try:
