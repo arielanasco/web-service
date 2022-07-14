@@ -49,7 +49,9 @@ def index(request):
 
         with gzip.open(path, 'rb') as ip:
                 with io.TextIOWrapper(ip, encoding='utf-8') as decoder:
-                    content = decoder.read()
+                    # content = decoder.read()
+                    content = gzip.decompress(decoder.read())
+                    # text = data.decode('utf-8')
 
         return HttpResponse(f"{content}",content_type="text/plain", status=status.HTTP_200_OK)
 
