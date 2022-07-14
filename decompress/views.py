@@ -35,10 +35,10 @@ def index(request):
             # print(data_headers)
             # filename = re.findall('filename=(.+)', data_headers)[0]
             # is_valid_file = filename.endswith('gz',-3,-1)
-
-            with gzip.open(path, "wb") as output:
+            open(path, 'wb').write(data.content)
+            # with gzip.open(path, "wb") as output:
                 # for chunk in data.iter_content(chunk_size=16*1024):
-                output.write(data.content)
+                    # output.write(data.content)
                 # with io.TextIOWrapper(output, encoding='utf-8') as encode:
                 #     for chunk in data.iter_content(chunk_size=16*1024):
                 #         encode.write(codecs.decode(chunk, 'utf-8'))
