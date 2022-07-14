@@ -37,7 +37,8 @@ def index(request):
 
             with gzip.open("temp.log.gz", "wb") as file:
                 for chunk in data.iter_content(chunk_size=16*1024):
-                    file.write(data.content) 
+                    file.write(data.content)
+            os.system('chown ubuntu:ubuntu temp.log.gz') 
 
         # if not is_valid_file:
             # os.remove("temp.log.gz")
@@ -48,6 +49,7 @@ def index(request):
                     content = decoder.read()
 
         os.remove("temp.log.gz")
+
         return HttpResponse(f"{content}",content_type="text/plain", status=status.HTTP_200_OK)
 
     else:
