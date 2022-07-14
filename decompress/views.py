@@ -25,14 +25,14 @@ def index(request):
     if client_key in settings.CLIENT_KEY:
         if not url:
             return Response({"error":f'URL should not be empty.'},status=status.HTTP_400_BAD_REQUEST)
+        try:
+            with requests.get(url, stream=True) as data:
+                if data.status_code != 200:
+                    return Response({"error":f'File not found on the server.'},status=status.HTTP_400_BAD_REQUEST)
+                open(path, 'wb').write(data.content)
+        except Exception as err:
+            return Response({"error":f'{err}'},status=status.HTTP_400_BAD_REQUEST)
             
-        with requests.get(url, stream=True) as data:
-            if data.status_code != 200:
-                return Response({"error":f'File not found on the server.'},status=status.HTTP_400_BAD_REQUEST)
-
-
-            open(path, 'wb').write(data.content)
-        
         try:
             with gzip.open(path, 'rb') as ip:
                     with io.TextIOWrapper(ip, encoding='utf-8') as decoder:
