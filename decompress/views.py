@@ -21,7 +21,7 @@ def index(request):
     client_key = request.POST.get('client-key', None)
     print(url)
     print(client_key)
-
+    path = r"temp.gz"
     if client_key in settings.CLIENT_KEY:
         if not url:
             raise Exception("URL should not be empty.") 
@@ -34,10 +34,8 @@ def index(request):
             # print(data_headers)
             # filename = re.findall('filename=(.+)', data_headers)[0]
             # is_valid_file = filename.endswith('gz',-3,-1)
-            
-            path = r"temp.gz"
-            assert os.path.isfile(path)
-            with gzip.open("temp.gz", "wb") as file:
+
+            with gzip.open(path, "wb") as file:
                 for chunk in data.iter_content(chunk_size=16*1024):
                     file.write(data.content)
 
@@ -45,11 +43,9 @@ def index(request):
             # os.remove("temp.log.gz")
             # raise Exception("File should be gzip only")
 
-        with gzip.open("temp.gz", 'rb') as ip:
+        with gzip.open(path, 'rb') as ip:
                 with io.TextIOWrapper(ip, encoding='utf-8') as decoder:
                     content = decoder.read()
-
-        os.remove("temp.log.gz")
 
         return HttpResponse(f"{content}",content_type="text/plain", status=status.HTTP_200_OK)
 
