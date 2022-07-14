@@ -38,8 +38,7 @@ def index(request):
 
             with gzip.open(path, "wb") as output:
                 with io.TextIOWrapper(output, encoding='utf-8') as encode:
-                    for chunk in data.iter_content(chunk_size=16*1024):
-                        encode.write(codecs.decode(chunk, 'UTF-8'))
+                        encode.write(data.content)
 
         # if not is_valid_file:
             # os.remove("temp.log.gz")
