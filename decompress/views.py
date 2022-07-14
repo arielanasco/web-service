@@ -34,10 +34,7 @@ def index(request):
             # print(data_headers)
             # filename = re.findall('filename=(.+)', data_headers)[0]
             # is_valid_file = filename.endswith('gz',-3,-1)
-            os.system('touch temp.log.gz') 
-            os.system('chown ubuntu:www-data temp.log.gz') 
-
-            with gzip.open("temp.log.gz", "wb") as file:
+            with gzip.open("temp.gz", "wb") as file:
                 for chunk in data.iter_content(chunk_size=16*1024):
                     file.write(data.content)
 
@@ -45,7 +42,7 @@ def index(request):
             # os.remove("temp.log.gz")
             # raise Exception("File should be gzip only")
 
-        with gzip.open("temp.log.gz", 'rb') as ip:
+        with gzip.open("temp.gz", 'rb') as ip:
                 with io.TextIOWrapper(ip, encoding='utf-8') as decoder:
                     content = decoder.read()
 
