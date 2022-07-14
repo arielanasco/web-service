@@ -34,6 +34,9 @@ def index(request):
             # print(data_headers)
             # filename = re.findall('filename=(.+)', data_headers)[0]
             # is_valid_file = filename.endswith('gz',-3,-1)
+            
+            path = r"temp.gz"
+            assert os.path.isfile(path)
             with gzip.open("temp.gz", "wb") as file:
                 for chunk in data.iter_content(chunk_size=16*1024):
                     file.write(data.content)
