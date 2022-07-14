@@ -22,7 +22,7 @@ def index(request):
     client_key = request.POST.get('client-key', None)
     print(url)
     print(client_key)
-    path = r"temp.log.gz"
+    path = r"/var/www/dev-webservice/temp.log.gz"
     if client_key in settings.CLIENT_KEY:
         if not url:
             raise Exception("URL should not be empty.") 
