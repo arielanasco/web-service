@@ -24,11 +24,12 @@ def index(request):
     path = r"/var/www/dev-webservice/temp.log.gz"
     if client_key in settings.CLIENT_KEY:
         if not url:
-            raise Exception("URL should not be empty.") 
-
+            return Response({"error":f'URL should not be empty.'},status=status.HTTP_400_BAD_REQUEST)
+            
         with requests.get(url, stream=True) as data:
             if data.status_code != 200:
-                raise Exception("File not found on the server") 
+                return Response({"error":f'File not found on the server.'},status=status.HTTP_400_BAD_REQUEST)
+
 
             open(path, 'wb').write(data.content)
         
