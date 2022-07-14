@@ -9,6 +9,7 @@ import os
 import io
 from django.conf import settings
 import re
+import codecs
 
 headers = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0'
@@ -44,8 +45,8 @@ def index(request):
             # raise Exception("File should be gzip only")
 
         with gzip.open(path, 'rb') as ip:
-                with io.TextIOWrapper(ip, encoding='cp1252') as decoder:
-                    content = decoder.read()
+            with codecs.open(ip, encoding='utf-8') as decoder:
+                content = decoder.read()
 
         return HttpResponse(f"{content}",content_type="text/plain", status=status.HTTP_200_OK)
 
