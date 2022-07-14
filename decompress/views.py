@@ -37,8 +37,11 @@ def index(request):
             # is_valid_file = filename.endswith('gz',-3,-1)
 
             with gzip.open(path, "wb") as output:
-                with io.TextIOWrapper(output, encoding='utf-8') as encode:
-                        encode.write(data.content)
+                for chunk in data.iter_content(chunk_size=16*1024):
+                    output.write(chunk)
+                # with io.TextIOWrapper(output, encoding='utf-8') as encode:
+                #     for chunk in data.iter_content(chunk_size=16*1024):
+                #         encode.write(codecs.decode(chunk, 'utf-8'))
 
         # if not is_valid_file:
             # os.remove("temp.log.gz")
