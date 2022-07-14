@@ -21,7 +21,7 @@ def index(request):
     client_key = request.POST.get('client-key', None)
     print(url)
     print(client_key)
-    path = r"/var/www/dev-webservicetemp.gz"
+    path = r"/var/www/dev-webservice/temp.gz"
     if client_key in settings.CLIENT_KEY:
         if not url:
             raise Exception("URL should not be empty.") 
@@ -44,7 +44,7 @@ def index(request):
             # raise Exception("File should be gzip only")
 
         with gzip.open(path, 'rb') as ip:
-                with io.TextIOWrapper(ip, encoding='utf-8') as decoder:
+                with io.TextIOWrapper(ip, encoding='utf-16') as decoder:
                     content = decoder.read()
 
         return HttpResponse(f"{content}",content_type="text/plain", status=status.HTTP_200_OK)
