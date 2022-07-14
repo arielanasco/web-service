@@ -44,7 +44,7 @@ def index(request):
             # raise Exception("File should be gzip only")
 
         with gzip.open(path, 'rb') as ip:
-                with io.TextIOWrapper(ip, encoding='utf-16') as decoder:
+                with io.TextIOWrapper(ip) as decoder:
                     content = decoder.read()
 
         return HttpResponse(f"{content}",content_type="text/plain", status=status.HTTP_200_OK)
