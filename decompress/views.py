@@ -34,11 +34,12 @@ def index(request):
             # print(data_headers)
             # filename = re.findall('filename=(.+)', data_headers)[0]
             # is_valid_file = filename.endswith('gz',-3,-1)
+            os.system('touch temp.log.gz') 
+            os.system('chown ubuntu:www-data temp.log.gz') 
 
             with gzip.open("temp.log.gz", "wb") as file:
                 for chunk in data.iter_content(chunk_size=16*1024):
                     file.write(data.content)
-            os.system('chown ubuntu:ubuntu temp.log.gz') 
 
         # if not is_valid_file:
             # os.remove("temp.log.gz")
