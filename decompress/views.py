@@ -36,15 +36,16 @@ def index(request):
             # is_valid_file = filename.endswith('gz',-3,-1)
 
             with gzip.open(path, "wb") as file:
-                for chunk in data.iter_content(chunk_size=16*1024):
-                    file.write(data.content)
+                with io.TextIOWrapper(file, encoding='utf-8') as encode:
+                    for chunk in data.iter_content(chunk_size=16*1024):
+                        encode.write(chunk)
 
         # if not is_valid_file:
             # os.remove("temp.log.gz")
             # raise Exception("File should be gzip only")
 
         with gzip.open(path, 'rb') as ip:
-                with io.TextIOWrapper(ip) as decoder:
+                with io.TextIOWrapper(ip, encoding='utf-8') as decoder:
                     content = decoder.read()
 
         return HttpResponse(f"{content}",content_type="text/plain", status=status.HTTP_200_OK)
