@@ -9,6 +9,7 @@ import os
 import io
 from django.conf import settings
 import re
+import codecs
 
 headers = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0'
@@ -21,7 +22,7 @@ def index(request):
     client_key = request.POST.get('client-key', None)
     print(url)
     print(client_key)
-    path = r"/var/www/dev-webservice/temp.gz"
+    path = r"temp.log.gz"
     if client_key in settings.CLIENT_KEY:
         if not url:
             raise Exception("URL should not be empty.") 
@@ -35,10 +36,10 @@ def index(request):
             # filename = re.findall('filename=(.+)', data_headers)[0]
             # is_valid_file = filename.endswith('gz',-3,-1)
 
-            with gzip.open(path, "wb") as file:
-                with io.TextIOWrapper(file, encoding='utf-8') as encode:
+            with gzip.open(path, "wb") as output:
+                with io.TextIOWrapper(output, encoding='utf-8') as encode:
                     for chunk in data.iter_content(chunk_size=16*1024):
-                        encode.write(chunk.decode('utf-8'))
+                        encode.write(codecs.decode(chunk, 'UTF-8'))
 
         # if not is_valid_file:
             # os.remove("temp.log.gz")
