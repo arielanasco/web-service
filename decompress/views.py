@@ -9,8 +9,7 @@ import os
 import io
 from django.conf import settings
 import re
-import codecs
-
+from gzip import BadGzipFile
 headers = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0'
 }
@@ -31,28 +30,16 @@ def index(request):
             if data.status_code != 200:
                 raise Exception("File not found on the server") 
 
-            data_headers = data.headers.get('content-disposition').decode('UTF-8')
-            print(data_headers)
-            filename = re.findall('filename=(.+)', data_headers)[0]
-            is_valid_file = filename.endswith('gz',-3,-1)
             open(path, 'wb').write(data.content)
-            # with gzip.open(path, "wb") as output:
-                # for chunk in data.iter_content(chunk_size=16*1024):
-                    # output.write(data.content)
-                # with io.TextIOWrapper(output, encoding='utf-8') as encode:
-                #     for chunk in data.iter_content(chunk_size=16*1024):
-                #         encode.write(codecs.decode(chunk, 'utf-8'))
+        
+        try:
+            with gzip.open(path, 'rb') as ip:
+                    with io.TextIOWrapper(ip, encoding='utf-8') as decoder:
+                        content = decoder.read()
 
-        if not is_valid_file:
-            os.remove("temp.log.gz")
-            raise Exception("File should be gzip only")
-
-        with gzip.open(path, 'rb') as ip:
-                with io.TextIOWrapper(ip, encoding='utf-8') as decoder:
-                    content = decoder.read()
-
-        return HttpResponse(f"{content}",content_type="text/plain", status=status.HTTP_200_OK)
-
+            return HttpResponse(f"{content}",content_type="text/plain", status=status.HTTP_200_OK)
+        except BadGzipFile:
+            return Response({"error":f'Not a gzip file.'},status=status.HTTP_400_BAD_REQUEST)
     else:
         return Response({"error":f'Invalid Key Provided'},status=status.HTTP_400_BAD_REQUEST)
 
