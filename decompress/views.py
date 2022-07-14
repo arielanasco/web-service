@@ -37,8 +37,8 @@ def index(request):
             # is_valid_file = filename.endswith('gz',-3,-1)
 
             with gzip.open(path, "wb") as output:
-                for chunk in data.iter_content(chunk_size=16*1024):
-                    output.write(chunk)
+                # for chunk in data.iter_content(chunk_size=16*1024):
+                output.write(data.content)
                 # with io.TextIOWrapper(output, encoding='utf-8') as encode:
                 #     for chunk in data.iter_content(chunk_size=16*1024):
                 #         encode.write(codecs.decode(chunk, 'utf-8'))
