@@ -9,7 +9,6 @@ import os
 import io
 from django.conf import settings
 import re
-import codecs
 
 headers = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0'
@@ -22,7 +21,7 @@ def index(request):
     client_key = request.POST.get('client-key', None)
     print(url)
     print(client_key)
-    path = r"/var/www/dev-webservice/temp.gz"
+    path = r"/var/www/dev-webservicetemp.gz"
     if client_key in settings.CLIENT_KEY:
         if not url:
             raise Exception("URL should not be empty.") 
@@ -45,8 +44,8 @@ def index(request):
             # raise Exception("File should be gzip only")
 
         with gzip.open(path, 'rb') as ip:
-            with codecs.open(ip, encoding='utf-8') as decoder:
-                content = decoder.read()
+                with io.TextIOWrapper(ip, encoding='utf-8') as decoder:
+                    content = decoder.read()
 
         return HttpResponse(f"{content}",content_type="text/plain", status=status.HTTP_200_OK)
 
