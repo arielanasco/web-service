@@ -16,8 +16,8 @@ headers = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0'
 }
 
-@csrf_exempt
 @api_view(('POST',))
+@csrf_exempt
 def index(request):
     url = request.POST.get('url', None)
     client_key = request.POST.get('client-key', None)
@@ -46,6 +46,7 @@ def index(request):
     else:
         return Response({"error":f'Invalid Key Provided'},status=status.HTTP_400_BAD_REQUEST)
 
+@csrf_exempt
 def test_form(request):
     return render (request, "decompress/test-form.html")
 
