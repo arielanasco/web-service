@@ -1,6 +1,7 @@
 <html>
     <body>
         <form action="http://18.183.17.47/gzip/unzip/" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
             <label>Enter URL</label>
             <input type="text" name="url" value="http://18.183.17.47/media/test_file/logcat-20180908_batterySafe-Off.log.gz"/>
             <label>Enter you  key</label>
