@@ -10,11 +10,13 @@ import io
 from django.conf import settings
 import re
 from gzip import BadGzipFile
+from django.views.decorators.csrf import csrf_exempt
+
 headers = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0'
 }
 
-
+@csrf_exempt
 @api_view(('POST',))
 def index(request):
     url = request.POST.get('url', None)
